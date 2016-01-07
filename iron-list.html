@@ -756,10 +756,12 @@ will only render 20.
      * if the physical size is shorter than `_optPhysicalSize`
      */
     _increasePoolIfNeeded: function() {
-      if (this._viewportSize !== 0 && this._physicalSize < this._optPhysicalSize) {
-        // 0 <= `currentPage` <= `_maxPages`
-        var currentPage = Math.floor(this._physicalSize / this._viewportSize);
+      if (this._viewportSize !== 0 &&
+          this._physicalSize < this._optPhysicalSize &&
+          this._virtualEnd < this._virtualCount-1) {
 
+        //  [0 <= `currentPage` <= `_maxPages`]
+        var currentPage = Math.floor(this._physicalSize / this._viewportSize);
         if (currentPage === 0) {
           // fill the first page
           this.async(this._increasePool.bind(this, Math.round(this._physicalCount * 0.5)));
